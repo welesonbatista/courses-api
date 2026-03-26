@@ -14,9 +14,9 @@ public class CreateCourseUseCase {
 
   public CourseEntity execute(CourseEntity course) {
 
-    this.courseRepository.findByNameOrCategory(course.getName(), course.getCategory())
-        .ifPresent(c -> {
-          throw new RuntimeException("Course with the same name or category already exists.");
+    this.courseRepository.findByName(course.getName())
+        .ifPresent((optionalObjectNotFound) -> {
+          throw new RuntimeException("Course with name " + course.getName() + " already exists!");
         });
 
     return this.courseRepository.save(course);
