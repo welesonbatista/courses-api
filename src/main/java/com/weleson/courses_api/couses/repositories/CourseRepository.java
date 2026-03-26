@@ -1,5 +1,6 @@
 package com.weleson.courses_api.couses.repositories;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -13,7 +14,8 @@ public interface CourseRepository extends JpaRepository <CourseEntity, UUID> {
 
   //READ
   Optional<CourseEntity> findByName(String name);
-  Optional<CourseEntity> findByNameOrCategory(String name, String category);
+  List<CourseEntity> findByNameOrCategory(String name, String category);
+  List<CourseEntity> findAll();
 
   //UPDATE
 

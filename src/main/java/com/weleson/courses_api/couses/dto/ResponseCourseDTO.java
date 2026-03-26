@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseCreateCourseDTO {
+public class ResponseCourseDTO {
 
   private String name;
   private String category;

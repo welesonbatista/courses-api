@@ -3,6 +3,7 @@ package com.weleson.courses_api.couses.entities;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -40,5 +41,10 @@ public class CourseEntity {
 
   @UpdateTimestamp
   private LocalDateTime updated_at;
+
+  public List orElse(Object object) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'orElse'");
+  }
 
 }
