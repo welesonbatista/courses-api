@@ -3,7 +3,6 @@ package com.weleson.courses_api.courses.entities;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;

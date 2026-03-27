@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,7 @@ import com.weleson.courses_api.courses.entities.CourseEntity;
 import com.weleson.courses_api.courses.useCases.CreateCourseUseCase;
 import com.weleson.courses_api.courses.useCases.DeteleCourseUseCase;
 import com.weleson.courses_api.courses.useCases.ListCoursesUseCase;
+import com.weleson.courses_api.courses.useCases.PatchCourseUseCase;
 import com.weleson.courses_api.courses.useCases.UpdateCourseUseCase;
 
 @RestController
@@ -36,6 +38,9 @@ public class CourseController {
 
   @Autowired
   DeteleCourseUseCase deteleCourseUseCase = new DeteleCourseUseCase();
+
+  @Autowired
+  PatchCourseUseCase patchCourseUseCase = new PatchCourseUseCase();
 
   @PostMapping("/create")
   public ResponseEntity<Object> createCourse(@RequestBody CourseEntity course) {
@@ -96,13 +101,13 @@ public class CourseController {
 
   }
 
-  @DeleteMapping("/")
-  public String deleteAllCourses() {
+  @PatchMapping("/patch")
+  public String patchCourse(@RequestParam UUID id, @RequestParam Boolean active) {
     try {
-      System.out.println("Deleting all courses...");
-      return "All courses deleted successfully";
+      this.patchCourseUseCase.execute(id, active);
+      return "Course patched successfully";
     } catch (RuntimeException e) {
-      return "Error deleting all courses: " + e.getMessage();
+      return "Error patching course: " + e.getMessage();
     }
   }
 
