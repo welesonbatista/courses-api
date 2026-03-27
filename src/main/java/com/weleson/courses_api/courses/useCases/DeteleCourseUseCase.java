@@ -21,7 +21,7 @@ public class DeteleCourseUseCase {
       }
       courseRepository.deleteById(id);
     } catch (Exception e) {
-      throw new RuntimeException("Internal server error");
+      throw new RuntimeException("Internal server error: " + e.getMessage());
     }
   }
 

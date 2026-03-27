@@ -44,7 +44,7 @@ public class CourseController {
   @Autowired
   PatchCourseUseCase patchCourseUseCase = new PatchCourseUseCase();
 
-  @PostMapping("/create")
+  @PostMapping("/")
   public ResponseEntity<Object> createCourse(@RequestBody CourseEntity course) {
 
     try {
@@ -66,7 +66,7 @@ public class CourseController {
 
   }
 
-  @GetMapping("/list")
+  @GetMapping("/")
   public ResponseEntity<Object> getCourses(@RequestParam Map<String, String> params) {
 
     try {
@@ -87,7 +87,7 @@ public class CourseController {
     }
   }
 
-  @PutMapping("/update")
+  @PutMapping("/")
   public ResponseEntity<Object> updateCourse(@RequestParam UUID id, @RequestBody UpdateCourseDTO updateCourseDTO) {
 
     try {
@@ -99,7 +99,7 @@ public class CourseController {
     return ResponseEntity.ok().body(updateCourseDTO);
   }
 
-  @DeleteMapping("/delete")
+  @DeleteMapping("/")
   public String deleteCourseById(@RequestParam UUID id) {
     try {
       this.deteleCourseUseCase.execute(id);
@@ -110,7 +110,7 @@ public class CourseController {
 
   }
 
-  @PatchMapping("/patch")
+  @PatchMapping("/")
   public String patchCourse(@RequestParam UUID id, @RequestParam Boolean active) {
     try {
       this.patchCourseUseCase.execute(id, active);
