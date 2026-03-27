@@ -17,7 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 
 @Data
-@Entity (name = "courses")
+@Entity(name = "courses")
 public class CourseEntity {
 
   @Id
@@ -35,16 +35,11 @@ public class CourseEntity {
   private String teacher;
 
   private Boolean active;
-  
+
   @CreationTimestamp
   private LocalDateTime created_at;
 
   @UpdateTimestamp
   private LocalDateTime updated_at;
-
-  public List orElse(Object object) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'orElse'");
-  }
 
 }

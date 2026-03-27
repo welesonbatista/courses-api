@@ -17,6 +17,7 @@ import com.weleson.courses_api.courses.dto.ResponseCourseDTO;
 import com.weleson.courses_api.courses.dto.UpdateCourseDTO;
 import com.weleson.courses_api.courses.entities.CourseEntity;
 import com.weleson.courses_api.courses.useCases.CreateCourseUseCase;
+import com.weleson.courses_api.courses.useCases.DeteleCourseUseCase;
 import com.weleson.courses_api.courses.useCases.ListCoursesUseCase;
 import com.weleson.courses_api.courses.useCases.UpdateCourseUseCase;
 
@@ -32,6 +33,9 @@ public class CourseController {
 
   @Autowired
   UpdateCourseUseCase updateCourseUseCase = new UpdateCourseUseCase();
+
+  @Autowired
+  DeteleCourseUseCase deteleCourseUseCase = new DeteleCourseUseCase();
 
   @PostMapping("/create")
   public ResponseEntity<Object> createCourse(@RequestBody CourseEntity course) {
@@ -82,8 +86,24 @@ public class CourseController {
   }
 
   @DeleteMapping("/delete")
-  public String deleteCourseById() {
-    return "Course deleted successfully!";
+  public String deleteCourseById(@RequestParam UUID id) {
+    try {
+      this.deteleCourseUseCase.execute(id);
+      return "Course deleted successfully";
+    } catch (RuntimeException e) {
+      return "Error deleting course: " + e.getMessage();
+    }
+
+  }
+
+  @DeleteMapping("/")
+  public String deleteAllCourses() {
+    try {
+      System.out.println("Deleting all courses...");
+      return "All courses deleted successfully";
+    } catch (RuntimeException e) {
+      return "Error deleting all courses: " + e.getMessage();
+    }
   }
 
 }

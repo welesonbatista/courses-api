@@ -18,6 +18,6 @@ public interface CourseRepository extends JpaRepository<CourseEntity, UUID> {
 
   Optional<CourseEntity> findById(UUID id);
 
-
+  void deleteById(UUID id);
 
 }
