@@ -1,5 +1,6 @@
 package com.weleson.courses_api.courses.controllers;
 
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import com.weleson.courses_api.courses.useCases.DeteleCourseUseCase;
 import com.weleson.courses_api.courses.useCases.ListCoursesUseCase;
 import com.weleson.courses_api.courses.useCases.PatchCourseUseCase;
 import com.weleson.courses_api.courses.useCases.UpdateCourseUseCase;
+import com.weleson.courses_api.exeptions.InvalidDataExeption;
 
 @RestController
 @RequestMapping("/courses")
@@ -65,17 +67,24 @@ public class CourseController {
   }
 
   @GetMapping("/list")
-  public ResponseEntity<Object> getCourses(@RequestParam(required = false) String name,
-      @RequestParam(required = false) String category) {
+  public ResponseEntity<Object> getCourses(@RequestParam Map<String, String> params) {
 
     try {
+
+      if (!params.keySet().stream().allMatch(key -> key.equals("name") || key.equals("category"))) {
+        throw new InvalidDataExeption();
+      }
+
+      String name = params.get("name");
+      String category = params.get("category");
+
       var courses = this.listCoursesUseCase.execute(name, category);
-      return ResponseEntity.ok().body(courses);
+
+      return ResponseEntity.ok(courses);
 
     } catch (RuntimeException e) {
-      return ResponseEntity.status(500).body("Error listing courses: " + e.getMessage());
+      return ResponseEntity.status(400).body(e.getMessage());
     }
-
   }
 
   @PutMapping("/update")
@@ -105,9 +114,9 @@ public class CourseController {
   public String patchCourse(@RequestParam UUID id, @RequestParam Boolean active) {
     try {
       this.patchCourseUseCase.execute(id, active);
-      return "Course patched successfully";
+      return "Course Active status updated successfully";
     } catch (RuntimeException e) {
-      return "Error patching course: " + e.getMessage();
+      return "Error updating course Active status: " + e.getMessage();
     }
   }
 
