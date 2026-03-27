@@ -1,4 +1,4 @@
-package com.weleson.courses_api.couses.entities;
+package com.weleson.courses_api.courses.entities;
 
 import lombok.Data;
 

@@ -1,10 +1,10 @@
-package com.weleson.courses_api.couses.useCases;
+package com.weleson.courses_api.courses.useCases;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.weleson.courses_api.couses.entities.CourseEntity;
-import com.weleson.courses_api.couses.repositories.CourseRepository;
+import com.weleson.courses_api.courses.entities.CourseEntity;
+import com.weleson.courses_api.courses.repositories.CourseRepository;
 
 @Service
 public class CreateCourseUseCase {
@@ -20,6 +20,7 @@ public class CreateCourseUseCase {
         });
 
     return this.courseRepository.save(course);
+
   }
 
 }

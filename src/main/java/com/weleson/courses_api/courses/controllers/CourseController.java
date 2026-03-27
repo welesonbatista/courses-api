@@ -1,4 +1,6 @@
-package com.weleson.courses_api.couses.controllers;
+package com.weleson.courses_api.courses.controllers;
+
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.weleson.courses_api.couses.dto.ResponseCourseDTO;
-import com.weleson.courses_api.couses.entities.CourseEntity;
-import com.weleson.courses_api.couses.useCases.CreateCourseUseCase;
-import com.weleson.courses_api.couses.useCases.ListCoursesUseCase;
+import com.weleson.courses_api.courses.dto.ResponseCourseDTO;
+import com.weleson.courses_api.courses.dto.UpdateCourseDTO;
+import com.weleson.courses_api.courses.entities.CourseEntity;
+import com.weleson.courses_api.courses.useCases.CreateCourseUseCase;
+import com.weleson.courses_api.courses.useCases.ListCoursesUseCase;
+import com.weleson.courses_api.courses.useCases.UpdateCourseUseCase;
 
 @RestController
 @RequestMapping("/courses")
@@ -26,12 +30,16 @@ public class CourseController {
   @Autowired
   ListCoursesUseCase listCoursesUseCase = new ListCoursesUseCase();
 
+  @Autowired
+  UpdateCourseUseCase updateCourseUseCase = new UpdateCourseUseCase();
+
   @PostMapping("/create")
   public ResponseEntity<Object> createCourse(@RequestBody CourseEntity course) {
 
     try {
       course = this.createCourseUseCase.execute(course);
       var courseResponseDTO = ResponseCourseDTO.builder()
+          .id(course.getId())
           .name(course.getName())
           .category(course.getCategory())
           .teacher(course.getTeacher())
@@ -61,12 +69,19 @@ public class CourseController {
 
   }
 
-  @PutMapping("/update-course")
-  public String updateCourse(@RequestBody CourseEntity course) {
-    return "Course updated successfully!";
+  @PutMapping("/update")
+  public ResponseEntity<Object> updateCourse(@RequestParam UUID id, @RequestBody UpdateCourseDTO updateCourseDTO) {
+
+    try {
+      this.updateCourseUseCase.execute(id, updateCourseDTO);
+    } catch (RuntimeException e) {
+      return ResponseEntity.status(500).body("Error updating course: " + e.getMessage());
+    }
+
+    return ResponseEntity.ok().body(updateCourseDTO);
   }
 
-  @DeleteMapping("/delete-course")
+  @DeleteMapping("/delete")
   public String deleteCourseById() {
     return "Course deleted successfully!";
   }
